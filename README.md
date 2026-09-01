@@ -102,15 +102,6 @@ actually reads a report — variance first, everything else after:
    - Avg On-Time Delivery %
    - Total IT Incidents
 
-Keep this footer visually quiet — smaller card size, no dedicated chart
-space — so it reads as "also tracked" rather than competing with the
-financial variance story above it.
-
-### 7. Polish for a portfolio screenshot
-- Use a consistent color per KPI category (e.g. blue for reliability,
-  green for financials, amber for safety, purple for IT/engineering)
-- Add a page title and a short subtitle noting the data is synthetic
-- Export as PDF or take a clean screenshot for your case study/portfolio
 
 ---
 *This is a personal portfolio project built with synthetic data to
