@@ -1,0 +1,22 @@
+{
+  "name": "Utility Executive - Navy",
+  "dataColors": [
+    "#1F3A5F",
+    "#6B7280",
+    "#2E7D6B",
+    "#B23A48",
+    "#3D6B9C",
+    "#8A8578",
+    "#4A5568",
+    "#C3947F"
+  ],
+  "background": "#F7F8FA",
+  "foreground": "#1B2430",
+  "tableAccent": "#1F3A5F",
+  "good": "#2E7D6B",
+  "bad": "#B23A48",
+  "neutral": "#6B7280",
+  "maximum": "#1F3A5F",
+  "center": "#B8C4D4",
+  "minimum": "#EDF1F5"
+}

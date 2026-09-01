@@ -1,0 +1,117 @@
+// ============================================================
+// DAX Measures — Grid & Digital Operations Executive Dashboard
+// ============================================================
+// Paste these into Power BI Desktop as new measures on the
+// relevant table (Modeling > New Measure), one at a time.
+// Assumes tables are named to match the CSV files:
+// outages, financials, safety, it_metrics, deployments
+
+// ---------- Outages / Reliability (SAIDI, SAIFI) ----------
+
+Total Customer Minutes Interrupted =
+SUMX ( outages, outages[duration_minutes] * outages[customers_affected] )
+
+Total Outage Count =
+COUNTROWS ( outages )
+
+// Placeholder territory customer count — replace with a real
+// customer/territory table in production.
+Total Customers In Territory = 450000
+
+SAIDI Minutes =
+DIVIDE ( [Total Customer Minutes Interrupted], [Total Customers In Territory] )
+
+SAIFI =
+DIVIDE ( [Total Outage Count], [Total Customers In Territory] )
+
+Avg Outage Duration (min) =
+AVERAGE ( outages[duration_minutes] )
+
+// ---------- Financials (Actuals) ----------
+
+Total Revenue =
+SUM ( financials[revenue_usd] )
+
+Total Opex =
+SUM ( financials[opex_usd] )
+
+Total Capex =
+SUM ( financials[capex_usd] )
+
+Operating Margin % =
+DIVIDE ( [Total Revenue] - [Total Opex], [Total Revenue] )
+
+// ---------- Financials (Budget) ----------
+
+Total Budget Revenue =
+SUM ( financials[budget_revenue_usd] )
+
+Total Budget Opex =
+SUM ( financials[budget_opex_usd] )
+
+Total Budget Capex =
+SUM ( financials[budget_capex_usd] )
+
+// ---------- Variance (the core controller view) ----------
+
+Revenue Variance $ =
+[Total Revenue] - [Total Budget Revenue]
+
+Revenue Variance % =
+DIVIDE ( [Revenue Variance $], [Total Budget Revenue] )
+
+Opex Variance $ =
+[Total Opex] - [Total Budget Opex]
+
+Opex Variance % =
+DIVIDE ( [Opex Variance $], [Total Budget Opex] )
+
+Capex Variance $ =
+[Total Capex] - [Total Budget Capex]
+
+Capex Variance % =
+DIVIDE ( [Capex Variance $], [Total Budget Capex] )
+
+// Status flag for conditional formatting — red if unfavorable, green if favorable
+// (Revenue: over budget is good. Opex/Capex: over budget is bad.)
+Revenue Variance Status =
+IF ( [Revenue Variance %] >= 0, "Favorable", "Unfavorable" )
+
+Opex Variance Status =
+IF ( [Opex Variance %] <= 0, "Favorable", "Unfavorable" )
+
+// ---------- Safety ----------
+
+Total Recordable Incidents =
+SUM ( safety[recordable_incidents] )
+
+Total Near Misses =
+SUM ( safety[near_misses] )
+
+Total Lost Time Incidents =
+SUM ( safety[lost_time_incidents] )
+
+// ---------- IT System Health ----------
+
+Avg IT Uptime % =
+AVERAGE ( it_metrics[uptime_pct] )
+
+Total IT Incidents =
+SUM ( it_metrics[incidents] )
+
+Avg MTTR (min) =
+AVERAGE ( it_metrics[mttr_minutes] )
+
+// ---------- Engineering Delivery ----------
+
+Total Deployments =
+SUM ( deployments[deployments] )
+
+Avg Deployment Success Rate % =
+AVERAGE ( deployments[success_rate_pct] )
+
+Avg Lead Time (hrs) =
+AVERAGE ( deployments[lead_time_hours] )
+
+Avg On-Time Delivery % =
+AVERAGE ( deployments[on_time_delivery_pct] )
